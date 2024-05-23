@@ -1,23 +1,41 @@
-import logo from './logo.svg';
+import React, { useState } from 'react';
 import './App.css';
+import Astronauts from './services/Astronauts';
+import Missions from './services/Missions';
 
 function App() {
+  const [activeTab, setActiveTab] = useState('Astronauts');
+
+  const handleTabClick = (tab) => {
+    setActiveTab(tab);
+  };
+
   return (
     <div className="App">
       <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
+        <h1>Welcome to Space Exploration</h1>
       </header>
+      <div className="tab-container">
+        <div
+          className={`tab ${activeTab === 'Astronauts' ? 'active' : ''}`}
+          onClick={() => handleTabClick('Astronauts')}
+        >
+          Astronauts
+        </div>
+        <div
+          className={`tab ${activeTab === 'Missions' ? 'active' : ''}`}
+          onClick={() => handleTabClick('Missions')}
+        >
+          Missions
+        </div>
+      </div>
+      <main>
+        {activeTab === 'Astronauts' && <Astronauts />}
+        {activeTab === 'Missions' && <Missions />}
+      </main>
+      <footer>
+        <p>© 2024 Space Exploration</p>
+      </footer>
     </div>
   );
 }
