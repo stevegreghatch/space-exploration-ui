@@ -1,10 +1,11 @@
 import React, { useState } from 'react';
 import './App.css';
-import Astronauts from './services/Astronauts';
-import Missions from './services/Missions';
+import Astronauts from './components/Astronauts';
+import Programs from './components/Programs'; 
+import Footer from './components/Footer';
 
 function App() {
-  const [activeTab, setActiveTab] = useState('Astronauts');
+  const [activeTab, setActiveTab] = useState('Programs');
 
   const handleTabClick = (tab) => {
     setActiveTab(tab);
@@ -17,25 +18,23 @@ function App() {
       </header>
       <div className="tab-container">
         <div
+          className={`tab ${activeTab === 'Programs' ? 'active' : ''}`}
+          onClick={() => handleTabClick('Programs')}
+        >
+          Programs
+        </div>
+        <div
           className={`tab ${activeTab === 'Astronauts' ? 'active' : ''}`}
           onClick={() => handleTabClick('Astronauts')}
         >
           Astronauts
         </div>
-        <div
-          className={`tab ${activeTab === 'Missions' ? 'active' : ''}`}
-          onClick={() => handleTabClick('Missions')}
-        >
-          Missions
-        </div>
       </div>
       <main>
+        {activeTab === 'Programs' && <Programs />}
         {activeTab === 'Astronauts' && <Astronauts />}
-        {activeTab === 'Missions' && <Missions />}
       </main>
-      <footer>
-        <p>© 2024 Space Exploration</p>
-      </footer>
+      <Footer />
     </div>
   );
 }

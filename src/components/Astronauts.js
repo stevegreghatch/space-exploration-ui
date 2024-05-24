@@ -1,38 +1,27 @@
-// Astronauts.js
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import '../App.css'; // Import CSS file for shared styles
 
 const formatString = (str) => {
   return str.split('_').map(word => word.charAt(0) + word.slice(1).toLowerCase()).join(' ');
 };
 
 const Astronauts = () => {
-  const [selectedMission, setSelectedMission] = useState('');
   const [astronauts, setAstronauts] = useState([]);
   const [selectedAstronaut, setSelectedAstronaut] = useState(null);
 
-  // Function to fetch astronauts based on the selected mission
+  // Function to fetch all astronauts on page load
   useEffect(() => {
     const fetchAstronauts = async () => {
       try {
-        const response = await axios.get(`/astronauts/program?program=${selectedMission}`);
-        setAstronauts(response.data);
+        const response = await axios.get('/astronauts'); // Fetch all astronauts
+        setAstronauts(response.data.astronauts); // Set the astronauts array from the response object
       } catch (error) {
         console.error('Error fetching astronauts:', error);
       }
     };
 
-    if (selectedMission) {
-      fetchAstronauts();
-    }
-  }, [selectedMission]);
-
-  // Function to handle dropdown change
-  const handleDropdownChange = (e) => {
-    setSelectedMission(e.target.value);
-    setSelectedAstronaut(null); // Reset selected astronaut when mission changes
-  };
+    fetchAstronauts();
+  }, []);
 
   // Function to handle click on astronaut
   const handleAstronautClick = (index) => {
@@ -40,19 +29,13 @@ const Astronauts = () => {
   };
 
   return (
-    <div className="App-main shared-container">
+    <div className="App-main">
       <h1>Astronauts</h1>
-      {/* Dropdown to select mission */}
-      <select value={selectedMission} onChange={handleDropdownChange} className="shared-dropdown">
-        <option value="">Select Mission</option>
-        <option value="MERCURY">Mercury</option>
-        <option value="GEMINI">Gemini</option>
-        <option value="APOLLO">Apollo</option>
-      </select>
       {/* Display astronaut data */}
       <div className="image-grid">
-        {astronauts.map((astronaut, index) => (
+        {Array.isArray(astronauts) && astronauts.map((astronaut, index) => (
           <div key={index} className="image-container" onClick={() => handleAstronautClick(index)}>
+            <div className="hover-text">{`${astronaut.firstName} ${astronaut.lastName}`}</div>
             <img src={astronaut.imageUrl} alt={`${astronaut.firstName} ${astronaut.lastName}`} />
             <div className="astronaut-name">{`${astronaut.firstName} ${astronaut.lastName}`}</div>
           </div>
