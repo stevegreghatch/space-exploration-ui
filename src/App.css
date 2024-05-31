@@ -104,3 +104,18 @@ body {
   bottom: 0;
   width: 100%;
 }
+
+label {
+  width: 150px; /* Set a fixed width for labels */
+  display: inline-block; /* Ensure labels behave like blocks */
+  text-align: right; /* Align the text to the right of the label */
+}
+
+#program-select,
+#mission-select {
+  padding: 10px;
+  margin: 10px 10px; /* Adjust margin to match */
+  border-radius: 5px;
+  border: 1px solid #ccc;
+  width: 200px; /* Set fixed width for both dropdowns */
+}
