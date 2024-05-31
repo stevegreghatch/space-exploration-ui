@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 
-const Programs = ({ onProgramSelect }) => {
+const Programs = () => {
   const [programs, setPrograms] = useState([]);
-  const [loadingMissions, setLoadingMissions] = useState(false);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const fetchPrograms = async () => {
@@ -12,33 +12,23 @@ const Programs = ({ onProgramSelect }) => {
         setPrograms(response.data.programs);
       } catch (error) {
         console.error('Error fetching programs:', error);
+      } finally {
+        setLoading(false);
       }
     };
 
     fetchPrograms();
   }, []);
 
-  const handleImageClick = async (program) => {
-    const programName = program.program;
-    setLoadingMissions(true);
-    try {
-      const response = await axios.get(`/missions/${programName}`);
-      const missions = response.data.missionsByProgram;
-      const programWithMissions = { ...program, missions };
-      onProgramSelect(programWithMissions); // Notify parent component
-    } catch (error) {
-      console.error('Error fetching missions:', error);
-    } finally {
-      setLoadingMissions(false);
-    }
-  };
+  if (loading) {
+    return <p>Loading programs...</p>;
+  }
 
   return (
     <div className="App-main">
-      {loadingMissions && <p>Loading missions...</p>}
       <div className="image-grid">
         {programs.map((program, index) => (
-          <div key={index} className="image-container" onClick={() => handleImageClick(program)}>
+          <div key={index} className="image-container">
             <div className="hover-text">{program.program}</div>
             <img 
               src={program.imageUrl} 

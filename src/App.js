@@ -7,27 +7,9 @@ import Footer from './components/Footer';
 
 function App() {
   const [activeTab, setActiveTab] = useState('Programs');
-  const [selectedProgram, setSelectedProgram] = useState(null);
-  const [selectedMission, setSelectedMission] = useState(null);
 
   const handleTabClick = (tab) => {
     setActiveTab(tab);
-    if (tab === 'Programs') {
-      setSelectedProgram(null);
-      setSelectedMission(null);
-    } else if (tab === 'Missions') {
-      setSelectedMission(null);
-    }
-  };
-
-  const handleProgramSelect = (program) => {
-    setSelectedProgram(program);
-    setActiveTab('Missions');
-  };
-
-  const handleMissionSelect = (mission) => {
-    setSelectedMission(mission);
-    setActiveTab('Astronauts');
   };
 
   return (
@@ -56,13 +38,9 @@ function App() {
         </button>
       </div>
       <main className="App-main">
-        {activeTab === 'Programs' && <Programs onProgramSelect={handleProgramSelect} />}
-        {activeTab === 'Missions' && selectedProgram && (
-          <Missions program={selectedProgram} onMissionSelect={handleMissionSelect} />
-        )}
-        {activeTab === 'Astronauts' && selectedMission && (
-          <Astronauts mission={selectedMission} />
-        )}
+        {activeTab === 'Programs' && <Programs />}
+        {activeTab === 'Missions' && <Missions />}
+        {activeTab === 'Astronauts' && <Astronauts />}
       </main>
       <Footer />
     </div>
