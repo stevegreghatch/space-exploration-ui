@@ -2,42 +2,56 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 
 const Missions = () => {
+  const [programs, setPrograms] = useState([]);
   const [missions, setMissions] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [programs, setPrograms] = useState([]);
   const [selectedProgram, setSelectedProgram] = useState('');
+  const [crewType, setCrewType] = useState('All');
 
   useEffect(() => {
-    const fetchPrograms = async () => {
+    const fetchData = async () => {
       try {
-        const response = await axios.get('/programs');
-        setPrograms(response.data.programs);
-      } catch (error) {
-        console.error('Error fetching programs:', error);
-      }
-    };
+        const programsResponse = await axios.get('/programs');
+        setPrograms(programsResponse.data.programs);
 
-    fetchPrograms();
-  }, []);
+        const missionsResponse = await axios.get('/missions');
+        setMissions(missionsResponse.data.missions);
 
-  useEffect(() => {
-    const fetchMissions = async () => {
-      setLoading(true);
-      try {
-        const response = await axios.get(selectedProgram ? `/missions/${selectedProgram}` : '/missions');
-        setMissions(response.data.missions || response.data.missionsByProgram);
-      } catch (error) {
-        console.error('Error fetching missions:', error);
-      } finally {
         setLoading(false);
+      } catch (error) {
+        console.error('Error fetching data:', error);
       }
     };
 
-    fetchMissions();
-  }, [selectedProgram]);
+    fetchData();
+  }, []);
 
   const handleProgramChange = (event) => {
     setSelectedProgram(event.target.value);
+  };
+
+  const handleCrewTypeChange = (event) => {
+    setCrewType(event.target.value);
+  };
+
+  const filterMissions = () => {
+    return missions
+      .filter((mission) => {
+        if (selectedProgram && mission.program !== selectedProgram) {
+          return false;
+        }
+
+        if (crewType === 'Crewed' && mission.astronauts.includes('uncrewed')) {
+          return false;
+        }
+
+        if (crewType === 'Uncrewed' && !mission.astronauts.includes('uncrewed')) {
+          return false;
+        }
+
+        return true;
+      })
+      .sort((a, b) => new Date(a.launchDateUtc) - new Date(b.launchDateUtc));
   };
 
   if (loading) {
@@ -47,16 +61,24 @@ const Missions = () => {
   return (
     <div className="missions-container">
       <div>
-        <label htmlFor="program-select">Select Program: </label>
-        <select id="program-select" value={selectedProgram} onChange={handleProgramChange}>
+        <label htmlFor="program-select">Program: </label>
+        <select id="program-select" className="select-dropdown" value={selectedProgram} onChange={handleProgramChange}>
           <option value="">All Programs</option>
           {programs.map((program, index) => (
             <option key={index} value={program.program}>{program.program}</option>
           ))}
         </select>
       </div>
+      <div>
+        <label htmlFor="crew-type-select">Crew Type: </label>
+        <select id="crew-type-select" className="select-dropdown" value={crewType} onChange={handleCrewTypeChange}>
+          <option value="All">All Missions</option>
+          <option value="Crewed">Crewed Missions</option>
+          <option value="Uncrewed">Uncrewed Missions</option>
+        </select>
+      </div>
       <div className="image-grid">
-        {missions.map((mission, index) => (
+        {filterMissions().map((mission, index) => (
           <div key={index} className="image-container">
             <div className="hover-text">{mission.mission}</div>
             <img 
@@ -65,7 +87,7 @@ const Missions = () => {
               onError={(e) => { 
                 e.target.onerror = null; 
                 e.target.src = 'https://via.placeholder.com/300'; 
-                console.error(`Error loading image: ${mission.imageUrl}`); 
+                console.error(`Error loading image for mission: ${mission.mission}`); 
               }} 
             />
           </div>

@@ -8,8 +8,6 @@ const Astronauts = () => {
   const [filteredAstronauts, setFilteredAstronauts] = useState([]);
   const [selectedProgram, setSelectedProgram] = useState('');
   const [selectedMission, setSelectedMission] = useState('');
-  const [loadingPrograms, setLoadingPrograms] = useState(true);
-  const [loadingMissions, setLoadingMissions] = useState(false);
   const [loadingAstronauts, setLoadingAstronauts] = useState(true);
 
   useEffect(() => {
@@ -27,8 +25,6 @@ const Astronauts = () => {
       } catch (error) {
         console.error('Error fetching data:', error);
       } finally {
-        setLoadingPrograms(false);
-        setLoadingMissions(false);
         setLoadingAstronauts(false);
       }
     };
@@ -80,7 +76,7 @@ const Astronauts = () => {
       </div>
 
       <div>
-        <label htmlFor="mission-select">Select Mission: </label>
+        <label htmlFor="mission-select">Mission: </label>
         <select id="mission-select" value={selectedMission} onChange={(e) => setSelectedMission(e.target.value)} disabled={!selectedProgram}>
           <option value="">All Missions</option>
           {missions.filter(mission => mission.program === selectedProgram).map((mission, index) => (
