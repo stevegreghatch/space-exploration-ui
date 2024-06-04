@@ -1,36 +1,15 @@
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
 
-const Astronauts = () => {
-  const [programs, setPrograms] = useState([]);
-  const [missions, setMissions] = useState([]);
-  const [allAstronauts, setAllAstronauts] = useState([]);
+const Astronauts = ({ programs, missions, astronauts }) => {
   const [filteredAstronauts, setFilteredAstronauts] = useState([]);
   const [selectedProgram, setSelectedProgram] = useState('');
   const [selectedMission, setSelectedMission] = useState('');
-  const [loadingAstronauts, setLoadingAstronauts] = useState(true);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const programsResponse = await axios.get('/programs');
-        setPrograms(programsResponse.data.programs);
-
-        const missionsResponse = await axios.get('/missions');
-        setMissions(missionsResponse.data.missions);
-
-        const astronautsResponse = await axios.get('/astronauts');
-        setAllAstronauts(astronautsResponse.data.astronauts);
-        setFilteredAstronauts(astronautsResponse.data.astronauts);
-      } catch (error) {
-        console.error('Error fetching data:', error);
-      } finally {
-        setLoadingAstronauts(false);
-      }
-    };
-
-    fetchData();
-  }, []);
+    setFilteredAstronauts(astronauts);
+    setLoading(false);
+  }, [astronauts]);
 
   useEffect(() => {
     setSelectedMission('');
@@ -38,12 +17,12 @@ const Astronauts = () => {
 
   useEffect(() => {
     const filterAstronauts = () => {
-      let filteredAstronauts = allAstronauts;
+      let filtered = astronauts;
 
       if (selectedProgram) {
         const selectedProgramMissions = missions.filter(mission => mission.program === selectedProgram);
         const astronautsFromProgram = selectedProgramMissions.flatMap(mission => mission.astronauts);
-        filteredAstronauts = filteredAstronauts.filter(astronaut =>
+        filtered = filtered.filter(astronaut =>
           astronautsFromProgram.includes(`${astronaut.astronautFirstName} ${astronaut.astronautLastName}`)
         );
       }
@@ -52,16 +31,20 @@ const Astronauts = () => {
         const astronautsFromMission = missions
           .find(mission => mission.mission === selectedMission)
           ?.astronauts || [];
-        filteredAstronauts = filteredAstronauts.filter(astronaut =>
+        filtered = filtered.filter(astronaut =>
           astronautsFromMission.includes(`${astronaut.astronautFirstName} ${astronaut.astronautLastName}`)
         );
       }
 
-      setFilteredAstronauts(filteredAstronauts);
+      setFilteredAstronauts(filtered);
     };
 
     filterAstronauts();
-  }, [selectedProgram, selectedMission, missions, allAstronauts]);
+  }, [selectedProgram, selectedMission, missions, astronauts]);
+
+  if (loading) {
+    return <p>Loading astronauts...</p>;
+  }
 
   return (
     <div className="missions-container">
@@ -85,25 +68,21 @@ const Astronauts = () => {
         </select>
       </div>
 
-      {loadingAstronauts ? (
-        <p>Loading astronauts...</p>
-      ) : (
-        <div className="image-grid">
-          {filteredAstronauts.map((astronaut, index) => (
-            <div key={index} className="image-container">
-              <div className="hover-text">{`${astronaut.astronautFirstName} ${astronaut.astronautLastName}`}</div>
-              <img
-                src={astronaut.imageUrl}
-                alt={`${astronaut.astronautFirstName} ${astronaut.astronautLastName}`}
-                onError={(e) => {
-                  e.target.onerror = null;
-                  e.target.src = 'https://via.placeholder.com/300';
-                }}
-              />
-            </div>
-          ))}
-        </div>
-      )}
+      <div className="image-grid">
+        {filteredAstronauts.map((astronaut, index) => (
+          <div key={index} className="image-container">
+            <div className="hover-text">{`${astronaut.astronautFirstName} ${astronaut.astronautLastName}`}</div>
+            <img
+              src={astronaut.imageUrl}
+              alt={`${astronaut.astronautFirstName} ${astronaut.astronautLastName}`}
+              onError={(e) => {
+                e.target.onerror = null;
+                e.target.src = 'https://via.placeholder.com/300';
+              }}
+            />
+          </div>
+        ))}
+      </div>
     </div>
   );
 };

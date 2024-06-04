@@ -1,26 +1,7 @@
-import React, { useState, useEffect } from 'react';
-import axios from 'axios';
+import React from 'react';
 
-const Programs = () => {
-  const [programs, setPrograms] = useState([]);
-  const [loading, setLoading] = useState(true);
-
-  useEffect(() => {
-    const fetchPrograms = async () => {
-      try {
-        const response = await axios.get('/programs');
-        setPrograms(response.data.programs);
-      } catch (error) {
-        console.error('Error fetching programs:', error);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchPrograms();
-  }, []);
-
-  if (loading) {
+const Programs = ({ programs }) => {
+  if (programs.length === 0) {
     return <p>Loading programs...</p>;
   }
 
