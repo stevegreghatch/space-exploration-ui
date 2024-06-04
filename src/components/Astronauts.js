@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 
 const Astronauts = ({ programs, missions, astronauts }) => {
   const [filteredAstronauts, setFilteredAstronauts] = useState([]);
@@ -22,9 +23,11 @@ const Astronauts = ({ programs, missions, astronauts }) => {
       if (selectedProgram) {
         const selectedProgramMissions = missions.filter(mission => mission.program === selectedProgram);
         const astronautsFromProgram = selectedProgramMissions.flatMap(mission => mission.astronauts);
-        filtered = filtered.filter(astronaut =>
-          astronautsFromProgram.includes(`${astronaut.astronautFirstName} ${astronaut.astronautLastName}`)
-        );
+        filtered = filtered.filter(astronaut => {
+          const fullName = `${astronaut.astronautFirstName} ${astronaut.astronautLastName}`;
+          const firstNameOnly = astronaut.astronautLastName ? fullName : astronaut.astronautFirstName;
+          return astronautsFromProgram.includes(firstNameOnly);
+        });
       }
 
       if (selectedMission) {
@@ -45,6 +48,13 @@ const Astronauts = ({ programs, missions, astronauts }) => {
   if (loading) {
     return <p>Loading astronauts...</p>;
   }
+
+  // Sort the filtered astronauts alphabetically by their full names
+  filteredAstronauts.sort((a, b) => {
+    const fullNameA = `${a.astronautFirstName} ${a.astronautLastName}`.toLowerCase();
+    const fullNameB = `${b.astronautFirstName} ${b.astronautLastName}`.toLowerCase();
+    return fullNameA.localeCompare(fullNameB);
+  });
 
   return (
     <div className="missions-container">
@@ -71,7 +81,12 @@ const Astronauts = ({ programs, missions, astronauts }) => {
       <div className="image-grid">
         {filteredAstronauts.map((astronaut, index) => (
           <div key={index} className="image-container">
-            <div className="hover-text">{`${astronaut.astronautFirstName} ${astronaut.astronautLastName}`}</div>
+            <Link 
+              to={`/astronautDetail/${astronaut.astronautFirstName.replace(/\s+/g, '-')}${astronaut.astronautLastName ? '-' + astronaut.astronautLastName.replace(/\s+/g, '-') : ''}`} 
+              state={{ astronaut }} 
+              className="hover-text">
+              {`${astronaut.astronautFirstName} ${astronaut.astronautLastName}`}
+            </Link>
             <img
               src={astronaut.imageUrl}
               alt={`${astronaut.astronautFirstName} ${astronaut.astronautLastName}`}
