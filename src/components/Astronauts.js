@@ -49,12 +49,8 @@ const Astronauts = ({ programs, missions, astronauts }) => {
     return <p>Loading astronauts...</p>;
   }
 
-  // Sort the filtered astronauts alphabetically by their full names
-  filteredAstronauts.sort((a, b) => {
-    const fullNameA = `${a.astronautFirstName} ${a.astronautLastName}`.toLowerCase();
-    const fullNameB = `${b.astronautFirstName} ${b.astronautLastName}`.toLowerCase();
-    return fullNameA.localeCompare(fullNameB);
-  });
+  // Sort the missions alphabetically
+  const sortedMissions = missions.slice().sort((a, b) => a.mission.localeCompare(b.mission));
 
   return (
     <div className="missions-container">
@@ -72,7 +68,7 @@ const Astronauts = ({ programs, missions, astronauts }) => {
         <label htmlFor="mission-select">Mission: </label>
         <select id="mission-select" value={selectedMission} onChange={(e) => setSelectedMission(e.target.value)} disabled={!selectedProgram}>
           <option value="">All Missions</option>
-          {missions.filter(mission => mission.program === selectedProgram).map((mission, index) => (
+          {sortedMissions.filter(mission => mission.program === selectedProgram).map((mission, index) => (
             <option key={index} value={mission.mission}>{mission.mission}</option>
           ))}
         </select>
