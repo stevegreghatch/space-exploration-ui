@@ -6,6 +6,7 @@ import Programs from './components/Programs';
 import Missions from './components/Missions';
 import Astronauts from './components/Astronauts';
 import Footer from './components/Footer';
+import ProgramDetail from './components/ProgramDetail';
 import MissionDetail from './components/MissionDetail';
 import AstronautDetail from './components/AstronautDetail'; // Import AstronautDetail component
 
@@ -66,8 +67,9 @@ function App() {
             <Route path="/" element={<Programs programs={programs} />} />
             <Route path="/missions" element={<Missions missions={missions} programs={programs} />} />
             <Route path="/astronauts" element={<Astronauts programs={programs} missions={missions} astronauts={astronauts} />} />
-            <Route path="/missionDetail/:missionName" element={<MissionDetail missions={missions} />} />
-            <Route path="/astronautDetail/:astronautName" element={<AstronautDetail />} /> {/* Use astronaut's name in the route path */}
+            <Route path="/programDetail/:programName" element={<ProgramDetail missions={missions} />} />
+            <Route path="/missionDetail/:missionName" element={<MissionDetail programs={programs} missions={missions} astronauts={astronauts} />} />
+            <Route path="/astronautDetail/:astronautName" element={<AstronautDetail missions={missions} />} />
           </Routes>
         </main>
         <Footer />

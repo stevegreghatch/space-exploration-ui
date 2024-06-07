@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 
 const Programs = ({ programs }) => {
   if (programs.length === 0) {
@@ -10,7 +11,9 @@ const Programs = ({ programs }) => {
       <div className="image-grid">
         {programs.map((program, index) => (
           <div key={index} className="image-container">
-            <div className="hover-text">{program.program}</div>
+            <Link to={`/programDetail/${program.program.replace(/\s+/g, '-')}`} state={{ program }} className="hover-text">
+              {program.program}
+            </Link>
             <img 
               src={program.imageUrl} 
               alt={program.program} 

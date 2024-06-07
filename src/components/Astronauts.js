@@ -16,27 +16,26 @@ const Astronauts = ({ programs, missions, astronauts }) => {
     setSelectedMission('');
   }, [selectedProgram]);
 
+  const astronautFullName = (astronaut) => {
+    return `${astronaut.astronautFirstName} ${astronaut.astronautLastName || ''}`.trim();
+  };
+
   useEffect(() => {
     const filterAstronauts = () => {
       let filtered = astronauts;
 
       if (selectedProgram) {
-        const selectedProgramMissions = missions.filter(mission => mission.program === selectedProgram);
-        const astronautsFromProgram = selectedProgramMissions.flatMap(mission => mission.astronauts);
-        filtered = filtered.filter(astronaut => {
-          const fullName = `${astronaut.astronautFirstName} ${astronaut.astronautLastName}`;
-          const firstNameOnly = astronaut.astronautLastName ? fullName : astronaut.astronautFirstName;
-          return astronautsFromProgram.includes(firstNameOnly);
-        });
+        const programMissions = missions.filter(mission => mission.program === selectedProgram);
+        const filteredProgramMissions = programMissions.filter(mission => !mission.astronauts.includes("uncrewed"));
+        const astronautsFromProgram = new Set(filteredProgramMissions.flatMap(mission => mission.astronauts));
+        filtered = filtered.filter(astronaut => astronautsFromProgram.has(astronautFullName(astronaut)));
       }
 
       if (selectedMission) {
-        const astronautsFromMission = missions
-          .find(mission => mission.mission === selectedMission)
-          ?.astronauts || [];
-        filtered = filtered.filter(astronaut =>
-          astronautsFromMission.includes(`${astronaut.astronautFirstName} ${astronaut.astronautLastName}`)
+        const astronautsFromMission = new Set(
+          missions.find(mission => mission.mission === selectedMission)?.astronauts || []
         );
+        filtered = filtered.filter(astronaut => astronautsFromMission.has(astronautFullName(astronaut)));
       }
 
       setFilteredAstronauts(filtered);
@@ -49,7 +48,6 @@ const Astronauts = ({ programs, missions, astronauts }) => {
     return <p>Loading astronauts...</p>;
   }
 
-  // Sort the missions alphabetically
   const sortedMissions = missions.slice().sort((a, b) => a.mission.localeCompare(b.mission));
 
   return (
@@ -68,7 +66,7 @@ const Astronauts = ({ programs, missions, astronauts }) => {
         <label htmlFor="mission-select">Mission: </label>
         <select id="mission-select" value={selectedMission} onChange={(e) => setSelectedMission(e.target.value)} disabled={!selectedProgram}>
           <option value="">All Missions</option>
-          {sortedMissions.filter(mission => mission.program === selectedProgram).map((mission, index) => (
+          {sortedMissions.filter(mission => mission.program === selectedProgram && !mission.astronauts.includes("uncrewed")).map((mission, index) => (
             <option key={index} value={mission.mission}>{mission.mission}</option>
           ))}
         </select>
