@@ -5,7 +5,6 @@ import axios from 'axios';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 
-// Set the base URL for axios requests
 axios.defaults.baseURL = 'http://localhost:8080';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));

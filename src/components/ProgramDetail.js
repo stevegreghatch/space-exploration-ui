@@ -1,23 +1,42 @@
-import React, { useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useLocation, Link } from 'react-router-dom';
+import axios from 'axios';
 import '../App.css';
 
 const ProgramDetail = ({ missions, setActiveTab }) => {
   const location = useLocation();
   const { program } = location.state;
+  const [imagesData, setImagesData] = useState([]);
+  const [currentImageIndex, setCurrentImageIndex] = useState(0);
 
   useEffect(() => {
-    setActiveTab('Programs'); // Set active tab to 'Programs' when component mounts
-  }, [setActiveTab]);
+    setActiveTab('Programs');
+    fetchImages(program.program);
+  }, [program, setActiveTab]);
+
+  const fetchImages = async (query) => {
+    try {
+      const response = await axios.get('/nasa/images', { params: { query } });
+      setImagesData(response.data);
+    } catch (error) {
+      console.error('Error fetching images:', error);
+    }
+  };
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setCurrentImageIndex((prevIndex) => (prevIndex + 1) % imagesData.length);
+    }, 10000);
+
+    return () => clearInterval(interval);
+  }, [imagesData]);
 
   if (!program) {
     return <p>No program found</p>;
   }
 
-  // Filter missions that belong to the selected program
   const programMissions = missions.filter(mission => mission.program === program.program);
 
-  // Group missions by year
   const missionsByYear = {};
   programMissions.forEach(mission => {
     const year = new Date(mission.launchDateUtc).getFullYear();
@@ -27,7 +46,6 @@ const ProgramDetail = ({ missions, setActiveTab }) => {
     missionsByYear[year].push(mission);
   });
 
-  // Sort missions within each year by launch date
   Object.keys(missionsByYear).forEach(year => {
     missionsByYear[year].sort((a, b) => new Date(a.launchDateUtc) - new Date(b.launchDateUtc));
   });
@@ -72,6 +90,24 @@ const ProgramDetail = ({ missions, setActiveTab }) => {
             </div>
           </div>
         ))}
+      </div>
+      <div className="detail-section">
+        <h3>Slideshow</h3>
+        <div className="slideshow-container">
+          {imagesData.length > 0 && (
+            <>
+              <img
+                src={imagesData[currentImageIndex].link}
+                alt={`Program Slideshow`}
+                className="slideshow-image"
+              />
+              <div className="slideshow-text">
+                <h4>{imagesData[currentImageIndex].title}</h4>
+                <p>{imagesData[currentImageIndex].description}</p>
+              </div>
+            </>
+          )}
+        </div>
       </div>
     </div>
   );

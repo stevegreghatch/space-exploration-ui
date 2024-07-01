@@ -49,7 +49,7 @@ function App() {
     <Router>
       <div className="App">
         <header className="App-header">
-          <h1>Welcome to Space Exploration</h1>
+          <h1>History of Space Exploration</h1>
         </header>
         <div className="tab-container">
           <Link to="/" className={`tab ${activeTab === 'Programs' ? 'active' : ''}`} onClick={() => handleTabClick('Programs')}>
