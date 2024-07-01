@@ -4,20 +4,9 @@
 
 The Space Exploration UI offers a user interface designed for interaction with data pertaining to space exploration missions, programs, and astronauts. It integrates closely with the Space Exploration Persistence Service and the Space Exploration Data Service to fetch and display relevant data in an intuitive and user-friendly manner.
 
-### Available Scripts
-
-In the project directory, you can run:
-
-#### `npm start`
-
-Runs the app in the development mode.\
-Open http://localhost:3000 to view it in your browser.
-
-The page will reload when you make changes.
-
 ### Instructions
 
-To run the Space Exploration UI using Docker, follow these steps:
+To run the Space Exploration UI, follow these steps:
 
 1. **Clone the Repository**:
 
