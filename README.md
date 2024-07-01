@@ -48,3 +48,5 @@ To run the Space Exploration UI using Docker, follow these steps:
 
 - **Persistence Service**: [Space Exploration Persistence Service](https://github.com/stevegreghatch/space-exploration-persistence-service)
 - **Data Service**: [Space Exploration Data Service](https://github.com/stevegreghatch/Space-Exploration)
+- **Common Library**: [Space Exploration Common Library](https://github.com/stevegreghatch/space-exploration-common-lib)
+
