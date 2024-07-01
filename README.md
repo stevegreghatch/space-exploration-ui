@@ -15,7 +15,7 @@ Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
 
 The page will reload when you make changes.
 
-### Docker Instructions
+### Instructions
 
 To run the Space Exploration UI using Docker, follow these steps:
 
@@ -33,22 +33,9 @@ To run the Space Exploration UI using Docker, follow these steps:
 2. **Run the Data Service**:
 
    Follow the instructions in the [Space Exploration Data Service repository](https://github.com/stevegreghatch/Space-Exploration) to set up and run the data service.
-
-4. **Build the Docker Image**:
-
-   ```sh
-   docker build -t space-exploration-ui:latest .
-   ```
-
-5. **Run the Docker Container**:
-
-   ```sh
-   docker run -d -p 3000:3000 --name space-exploration-ui --network my-network space-exploration-ui:latest
-   ```
    
 ## Project Links
 
 - **Persistence Service**: [Space Exploration Persistence Service](https://github.com/stevegreghatch/space-exploration-persistence-service)
 - **Data Service**: [Space Exploration Data Service](https://github.com/stevegreghatch/Space-Exploration)
 - **Common Library**: [Space Exploration Common Library](https://github.com/stevegreghatch/space-exploration-common-lib)
-
