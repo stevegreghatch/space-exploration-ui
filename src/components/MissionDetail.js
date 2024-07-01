@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import axios from 'axios';
 import '../App.css';
-import MissionMap from './MissionMap';
+import MissionMap from './MissionMap'; // eslint-disable-line
 
 const MissionDetail = ({ astronauts, programs, setActiveTab }) => {
   const location = useLocation();
