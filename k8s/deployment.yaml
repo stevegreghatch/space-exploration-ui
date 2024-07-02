@@ -1,0 +1,22 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: space-exploration-ui
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: space-exploration-ui
+  template:
+    metadata:
+      labels:
+        app: space-exploration-ui
+    spec:
+      containers:
+        - name: space-exploration-ui
+          image: stevegreghatch/space-exploration-ui:latest
+          ports:
+            - containerPort: 3000
+          env:
+            - name: API_BASE_URL
+              value: "http://space-exploration-service:8080"
