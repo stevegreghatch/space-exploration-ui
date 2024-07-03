@@ -15,8 +15,6 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
-        with:
-          repository: 'stevegreghatch/space-exploration-ui'
 
       - name: Set up Node.js
         uses: actions/setup-node@v2
@@ -45,7 +43,6 @@ jobs:
           if [ -z "$latest_tag" ]; then
             new_version="0.0.1"
           else
-            # Increment the version number for a new tag
             new_version=$(echo $latest_tag | awk -F'[.-]' '{printf "%d.%d.%d\n", $1, $2, $3 + 1}')
           fi
           echo "new_version=$new_version" >> $GITHUB_ENV
@@ -54,20 +51,15 @@ jobs:
         run: |
           docker build -t ${{ secrets.DOCKER_USERNAME }}/space-exploration-ui:${{ env.new_version }} .
           docker tag ${{ secrets.DOCKER_USERNAME }}/space-exploration-ui:${{ env.new_version }} ${{ secrets.DOCKER_USERNAME }}/space-exploration-ui:latest
-          docker push ${{ secrets.DOCKER_USERNAME }}/space-exploration-ui:${{ env.new_version }}
           docker push ${{ secrets.DOCKER_USERNAME }}/space-exploration-ui:latest
 
       - name: Push new tag
         if: success()
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          git fetch --tags
-          existing_tag=$(git tag --list ${{ env.new_version }})
-          if [ -z "$existing_tag" ]; then
-            git tag ${{ env.new_version }}
-            git push origin ${{ env.new_version }}
-            echo "Created and pushed new tag: ${{ env.new_version }}"
-          else
-            echo "Tag ${{ env.new_version }} already exists."
-          fi
+          new_version="${{ env.new_version }}"
+          while git rev-parse --quiet --verify "refs/tags/${new_version}"; do
+            new_version=$(echo $new_version | awk -F'[.-]' '{printf "%d.%d.%d\n", $1, $2, $3 + 1}')
+          done
+          echo "Creating new tag: ${new_version}"
+          git tag "${new_version}"
+          git push origin "${new_version}"
