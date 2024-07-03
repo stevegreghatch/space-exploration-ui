@@ -43,7 +43,8 @@ jobs:
           if [ -z "$latest_tag" ]; then
             new_version="0.0.1"
           else
-            new_version=$latest_tag
+            # Increment the version number for a new tag
+            new_version=$(echo $latest_tag | awk -F'[.-]' '{printf "%d.%d.%d\n", $1, $2, $3 + 1}')
           fi
           echo "new_version=$new_version" >> $GITHUB_ENV
 
@@ -54,7 +55,8 @@ jobs:
           docker push ${{ secrets.DOCKER_USERNAME }}/space-exploration-ui:${{ env.new_version }}
           docker push ${{ secrets.DOCKER_USERNAME }}/space-exploration-ui:latest
 
-      - name: Push new or updated tag
+      - name: Push new tag
+        if: success()
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
@@ -63,6 +65,7 @@ jobs:
           if [ -z "$existing_tag" ]; then
             git tag ${{ env.new_version }}
             git push origin ${{ env.new_version }}
+            echo "Created and pushed new tag: ${{ env.new_version }}"
           else
             echo "Tag ${{ env.new_version }} already exists."
           fi
