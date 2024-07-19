@@ -16,4 +16,4 @@ spec:
               service:
                 name: space-exploration-ui
                 port:
-                  number: 3000
+                  number: 80

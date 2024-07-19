@@ -17,9 +17,6 @@ spec:
           image: stevegreghatch/space-exploration-ui:latest
           ports:
             - containerPort: 3000
-          env:
-            - name: API_BASE_URL
-              value: "http://space-exploration-service:8080"
           readinessProbe:
             httpGet:
               path: /
