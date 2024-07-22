@@ -3,16 +3,10 @@ kind: Ingress
 metadata:
   name: space-exploration-ui-ingress
   annotations:
-    nginx.ingress.kubernetes.io/rewrite-target: /
     cert-manager.io/cluster-issuer: "letsencrypt-prod"
 spec:
-  ingressClassName: nginx
-  tls:
-  - hosts:
-    - "*.history-from-the-frontier.com"
-    secretName: wildcard-certificate-tls
   rules:
-  - host: history-from-the-frontier.com
+  - host: "*.history-from-the-frontier.com"
     http:
       paths:
       - path: /
@@ -22,3 +16,7 @@ spec:
             name: space-exploration-ui
             port:
               number: 80
+  tls:
+  - hosts:
+    - "*.history-from-the-frontier.com"
+    secretName: wildcard-certificate-tls
