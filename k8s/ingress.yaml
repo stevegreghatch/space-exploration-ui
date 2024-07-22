@@ -6,7 +6,7 @@ metadata:
     cert-manager.io/cluster-issuer: "letsencrypt-prod"
 spec:
   rules:
-  - host: "*.history-from-the-frontier.com"
+  - host: "history-from-the-frontier.com"
     http:
       paths:
       - path: /
@@ -18,5 +18,5 @@ spec:
               number: 80
   tls:
   - hosts:
-    - "*.history-from-the-frontier.com"
+    - "history-from-the-frontier.com"
     secretName: wildcard-certificate-tls
