@@ -9,8 +9,8 @@ spec:
   ingressClassName: nginx
   tls:
   - hosts:
-    - history-from-the-frontier.com
-    secretName: space-exploration-ui-tls
+    - "*.history-from-the-frontier.com"
+    secretName: wildcard-certificate-tls
   rules:
   - host: history-from-the-frontier.com
     http:
