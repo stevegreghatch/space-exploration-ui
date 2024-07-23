@@ -3,7 +3,7 @@ kind: Ingress
 metadata:
   name: space-exploration-ui-ingress
   annotations:
-    networking.gke.io/managed-certificates: "managed-certificate"
+    networking.gke.io/managed-certificates: "ui-space-exploration-certificate"
 spec:
   rules:
   - host: "history-from-the-frontier.com"

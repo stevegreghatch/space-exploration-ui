@@ -1,7 +1,7 @@
 apiVersion: networking.gke.io/v1
 kind: ManagedCertificate
 metadata:
-  name: managed-certificate
+  name: ui-space-exploration-certificate
   namespace: default
 spec:
   domains:
