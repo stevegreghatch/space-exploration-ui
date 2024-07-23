@@ -3,7 +3,7 @@ kind: Ingress
 metadata:
   name: space-exploration-ui-ingress
   annotations:
-      kubernetes.io/ingress.class: "nginx"
+    kubernetes.io/ingress.class: "nginx"
     networking.gke.io/managed-certificates: "ui-space-exploration-certificate"
 spec:
   rules:
