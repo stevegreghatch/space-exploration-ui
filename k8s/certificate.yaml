@@ -1,19 +1,16 @@
 apiVersion: cert-manager.io/v1
 kind: Certificate
 metadata:
-  name: wildcard-certificate-tls
+  name: ui-certificate-tls
   namespace: default
 spec:
-  secretName: wildcard-certificate-tls
+  secretName: ui-certificate-tls
   issuerRef:
     name: letsencrypt-prod
     kind: ClusterIssuer
-  commonName: "*.history-from-the-frontier.com"
+  commonName: "history-from-the-frontier.com"
   dnsNames:
-    - "*.history-from-the-frontier.com"
     - "history-from-the-frontier.com"
-    - "api-space-exploration.history-from-the-frontier.com"
-    - "api-persistence.history-from-the-frontier.com"
   usages:
     - digital signature
     - key encipherment
