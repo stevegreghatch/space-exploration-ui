@@ -4,7 +4,7 @@ metadata:
   name: space-exploration-ui-ingress
   annotations:
     kubernetes.io/ingress.class: "nginx"
-    networking.gke.io/managed-certificates: "ui-space-exploration-certificate"
+    cert-manager.io/cluster-issuer: "letsencrypt-prod"
 spec:
   rules:
   - host: "history-from-the-frontier.com"
@@ -17,3 +17,7 @@ spec:
             name: space-exploration-ui
             port:
               number: 80
+  tls:
+  - hosts:
+    - "history-from-the-frontier.com"
+    secretName: ui-space-exploration-certificate-tls
