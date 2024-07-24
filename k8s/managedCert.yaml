@@ -1,8 +1,0 @@
-apiVersion: networking.gke.io/v1
-kind: ManagedCertificate
-metadata:
-  name: ui-space-exploration-certificate
-  namespace: default
-spec:
-  domains:
-    - "history-from-the-frontier.com"
