@@ -18,8 +18,3 @@ spec:
             name: ui-service
             port:
               number: 80
-  defaultBackend:
-    service:
-      name: ui-service
-      port:
-        number: 80
