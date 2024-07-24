@@ -9,6 +9,6 @@ metadata:
 spec:
   defaultBackend:
     service:
-      name: space-exploration-ui-service
+      name: ui-service
       port:
         number: 80
