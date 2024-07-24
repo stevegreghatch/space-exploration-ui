@@ -3,7 +3,7 @@ kind: Ingress
 metadata:
   name: space-exploration-ui-ingress
   annotations:
-    spec.ingressClassName: gce
+    kubernetes.io/ingress.class: gce
     kubernetes.io/ingress.allow-http: "true"
 spec:
   defaultBackend:
