@@ -3,8 +3,9 @@ kind: Ingress
 metadata:
   name: space-exploration-ui-ingress
   annotations:
+    kubernetes.io/ingress.global-static-ip-name: address
+    networking.gke.io/managed-certificates: managed-cert
     kubernetes.io/ingress.class: gce
-    kubernetes.io/ingress.allow-http: "true"
 spec:
   defaultBackend:
     service:
