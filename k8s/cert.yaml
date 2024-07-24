@@ -5,8 +5,8 @@ metadata:
 spec:
   domains:
     - history-from-the-frontier.com
-    - www.history-from-the-frontier.com
     - api-space-exploration-service-history-from-the-frontier.com
-    - www.api-space-exploration-service-history-from-the-frontier.com
     - api-persistence-history-from-the-frontier.com
+    - www.history-from-the-frontier.com
+    - www.api-space-exploration-service-history-from-the-frontier.com
     - www.api-persistence-history-from-the-frontier.com
