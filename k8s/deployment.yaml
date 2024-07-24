@@ -16,7 +16,7 @@ spec:
         - name: space-exploration-ui
           image: stevegreghatch/space-exploration-ui:latest
           ports:
-            - containerPort: 80
+            - containerPort: 10250
           readinessProbe:
             httpGet:
               path: /
