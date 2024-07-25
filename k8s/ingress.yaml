@@ -11,7 +11,7 @@ spec:
   - host: history-from-the-frontier.com
     http:
       paths:
-      - path: /*
+      - path: /
         pathType: ImplementationSpecific
         backend:
           service:
