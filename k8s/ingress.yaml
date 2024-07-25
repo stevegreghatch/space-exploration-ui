@@ -11,7 +11,7 @@ spec:
   - host: history-from-the-frontier.com
     http:
       paths:
-      - pathType: ImplementationSpecific
+      - pathType: Prefix
         path: /
         backend:
           service:
@@ -21,7 +21,7 @@ spec:
   - host: api-space-exploration-history-from-the-frontier.com
     http:
       paths:
-      - pathType: ImplementationSpecific
+      - pathType: Prefix
         path: /
         backend:
           service:
@@ -31,7 +31,7 @@ spec:
   - host: api-persistence-history-from-the-frontier.com
     http:
       paths:
-      - pathType: ImplementationSpecific
+      - pathType: Prefix
         path: /
         backend:
           service:
