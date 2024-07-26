@@ -3,16 +3,14 @@ kind: Ingress
 metadata:
   name: space-exploration-app-ingress
   annotations:
-    kubernetes.io/ingress.global-static-ip-name: address
-    networking.gke.io/managed-certificates: managed-cert-ui,managed-cert-space-exploration,managed-cert-persistence
-    kubernetes.io/ingress.class: gce
+    cert-manager.io/cluster-issuer: letsencrypt-prod
 spec:
   rules:
   - host: history-from-the-frontier.com
     http:
       paths:
-      - pathType: Prefix
-        path: /
+      - path: /
+        pathType: Prefix
         backend:
           service:
             name: ui-service
@@ -21,8 +19,8 @@ spec:
   - host: api-space-exploration-history-from-the-frontier.com
     http:
       paths:
-      - pathType: Prefix
-        path: /
+      - path: /
+        pathType: Prefix
         backend:
           service:
             name: api-space-exploration-service
@@ -31,10 +29,16 @@ spec:
   - host: api-persistence-history-from-the-frontier.com
     http:
       paths:
-      - pathType: Prefix
-        path: /
+      - path: /
+        pathType: Prefix
         backend:
           service:
             name: api-persistence-service
             port:
               number: 8081
+  tls:
+  - hosts:
+    - history-from-the-frontier.com
+    - api-space-exploration-history-from-the-frontier.com
+    - api-persistence-history-from-the-frontier.com
+    secretName: nginx-tls
