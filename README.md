@@ -1,12 +1,25 @@
 # Space Exploration UI
 
-![image](https://github.com/user-attachments/assets/7da55d85-309c-4d99-a41d-fd66344bf2ea)
+Program Overview: 
+![image](https://github.com/user-attachments/assets/7af0b7b1-2f09-4b2d-8f9c-ee547f2e94bc)
 
-![image](https://github.com/user-attachments/assets/3a52bcd6-3de2-422f-be07-e5c8f47044d3)
+Selected Program:
+![image](https://github.com/user-attachments/assets/b8691cfc-475c-4a72-ae52-55bd1c7e1e3c)
 
+Mission Overview:
+![image](https://github.com/user-attachments/assets/c606a425-0684-494d-af66-ad67b040bc48)
+
+Selected Mission:
+![image](https://github.com/user-attachments/assets/f178f1cf-7e11-4a14-b5b4-a93c6cce2b71)
+
+Astornaut Overview:
 ![image](https://github.com/user-attachments/assets/d0c1595e-d5c9-42d4-b3b5-d7685026981c)
 
-The Space Exploration UI offers a user interface designed for interaction with data pertaining to space exploration missions, programs, and astronauts. It integrates closely with the Space Exploration Persistence Service and the Space Exploration Data Service to fetch and display relevant data in an intuitive and user-friendly manner.
+Selected Astronaut:
+![image](https://github.com/user-attachments/assets/b46754cf-3c25-476b-a006-7a8f47b1e425)
+
+
+The Space Exploration UI offers a user interface designed for interaction with data pertaining to space exploration missions, programs, and astronauts. It integrates closely with the Space Exploration Persistence Service and the Space Exploration Data Service to fetch and display relevant data in an intuitive and user-friendly manner. Sildeshow images pulled in via NASA images API.
 
 ### Instructions
 
