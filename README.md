@@ -1,6 +1,10 @@
 # Space Exploration UI
 
-![image](https://github.com/stevegreghatch/space-exploration-ui/assets/90797071/1a5362d0-4bad-42f6-a3a4-1b6144c93b4a)
+![image](https://github.com/user-attachments/assets/7da55d85-309c-4d99-a41d-fd66344bf2ea)
+
+![image](https://github.com/user-attachments/assets/3a52bcd6-3de2-422f-be07-e5c8f47044d3)
+
+![image](https://github.com/user-attachments/assets/d0c1595e-d5c9-42d4-b3b5-d7685026981c)
 
 The Space Exploration UI offers a user interface designed for interaction with data pertaining to space exploration missions, programs, and astronauts. It integrates closely with the Space Exploration Persistence Service and the Space Exploration Data Service to fetch and display relevant data in an intuitive and user-friendly manner.
 
